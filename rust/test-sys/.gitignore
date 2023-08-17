@@ -1,0 +1,4 @@
+# Ignore rust files
+/target
+/Cargo.lock
+src/bindings.rs
