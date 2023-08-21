@@ -39,9 +39,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         copy(&mut response, &mut lib_file)?;
 
         println!("cargo:rerun-if-changed=build.rs");
+        println!("cargo:rerun-if-env-changed=CARGO_PKG_VERSION");
     }
 
-    println!("cargo:rerun-if-env-changed=CARGO_PKG_VERSION");
     println!("cargo:rustc-link-search=native={}", out_dir.display());
     println!("cargo:rustc-link-lib=dylib={LIB_NAME}"); // TODO: update this to `blitzar`
 
