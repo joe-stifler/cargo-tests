@@ -29,6 +29,12 @@ jobs:
         with:
           node-version: "18.x"
 
+      - name: Install dependencies
+        run: |
+          apt-get update && apt-get install -y libclang-dev
+          cargo install --version 0.60.1 bindgen
+          rustup component add rustfmt
+
       - name: Semantic relase
         run: |
           npm install semantic-release
