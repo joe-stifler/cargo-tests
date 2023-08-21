@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eou pipefail
 
 mkdir -p bin/
 
@@ -14,3 +15,9 @@ LIB_PATH="test-sys"
 RUST_PATH="$(pwd)/rust"
 RUST_INCLUDE_NAME="bindings.rs"
 bindgen --allowlist-file ${INCLUDE_PATH}/${INCLUDE_FILE}.h ${INCLUDE_PATH}/${INCLUDE_FILE}.h -o ${RUST_PATH}/${LIB_PATH}/src/${RUST_INCLUDE_NAME}
+
+LIB_PATH=$1
+
+echo "Hellow World: $LIB_PATH"
+
+cp bin/libapi.so ${LIB_PATH}
