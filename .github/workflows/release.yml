@@ -31,7 +31,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          apt-get update && apt-get install -y libclang-dev
+          apt-get update && apt-get install -y libclang-dev zip
           cargo install --version 0.60.1 bindgen
           rustup component add rustfmt
 
