@@ -22,5 +22,10 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Install dependencies
+        run: |
+          apt-get update && apt-get install -y libclang-dev
+          cargo install --version 0.60.1 bindgen
+
       - name: Run rust tests
         run: cargo test --manifest-path rust/tests/Cargo.toml
