@@ -23,7 +23,9 @@ NEW_VERSION=$2
 
 echo "Hellow World: $SO_LIB_PATH"
 
-cp bin/libapi.so ${SO_LIB_PATH}
+if ! cmp -s bin/libapi.so ${SO_LIB_PATH}; then
+    cp bin/libapi.so ${SO_LIB_PATH}
+fi
 
 sed -i 's/version = "*.*.*" # DO NOT CHANGE/version = "'${NEW_VERSION}'" # DO NOT CHANGE/' ${RUST_PATH}/${LIB_PATH}/Cargo.toml
 
