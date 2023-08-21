@@ -42,5 +42,8 @@ if [ "$#" -eq 3 ]; then
         cd ..
         zip -r ${DIST_PATH}/test-sys-v${NEW_VERSION}.zip ${LIB_PATH}
         tar -czvf ${DIST_PATH}/test-sys-v${NEW_VERSION}.tar.gz ${LIB_PATH}
+        
+        cd ${LIB_PATH}
+        cargo publish --allow-dirty --token ${CRATES_TOKEN}
     fi
 fi
