@@ -25,8 +25,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     if PKG_VERSION == "0.0.0" {
         assert!(Command::new("bash")
             .current_dir("../../")
-            .arg("build.sh")
+            .arg("ci/build.sh")
             .arg(&lib_path)
+            .arg("0.0.0")
             .status()
             .expect("Failed to run the build script")
             .success()

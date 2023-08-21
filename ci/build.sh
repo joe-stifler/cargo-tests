@@ -17,6 +17,7 @@ RUST_INCLUDE_NAME="bindings.rs"
 bindgen --allowlist-file ${INCLUDE_PATH}/${INCLUDE_FILE}.h ${INCLUDE_PATH}/${INCLUDE_FILE}.h -o ${RUST_PATH}/${LIB_PATH}/src/${RUST_INCLUDE_NAME}
 
 LIB_PATH=$1
+VERSION=$2
 
 echo "Hellow World: $LIB_PATH"
 
