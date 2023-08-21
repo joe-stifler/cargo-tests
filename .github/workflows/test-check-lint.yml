@@ -15,7 +15,7 @@ concurrency:
 jobs:
   test-rust:
     name: Rust Sys Crate
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     container:
       image: rust:latest
     steps:
