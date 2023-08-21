@@ -1,53 +1,48 @@
 use std::env;
-use std::fs;
-use std::path::Path;
+use std::fs::File;
+use std::io::copy;
 use std::path::PathBuf;
+use std::process::Command;
 
-fn build_blitzar_lib() {
-    const VERSION: &'static str = env!("CARGO_PKG_VERSION");
-    let reduced_lib_name = "api";
-    let mut lib_name = format!("lib{}-v{}.so", reduced_lib_name, VERSION);
-    let lib_name_local = format!("lib{}.so", reduced_lib_name);
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    if !cfg!(target_os = "linux") {
+        panic!("Unsupported OS. Only Linux is supported.");
+    }
 
-    // verify if the system is supported
-    if cfg!(target_os = "linux") {
-        lib_name = format!("{}-linux", lib_name);
+    if !cfg!(target_arch = "x86_64") {
+        panic!("Unsupported architecture. Only x86_64 is supported.");
+    }
+
+    const LIB_NAME: &'static str = "api"; // TODO: update this to `blitzar
+    const SHARED_LIB: &'static str = "libapi.so"; // TODO: update this to `libblitzar.so`
+    const REPO_NAME: &'static str = "cargo-tests"; // TODO: update this to `blitzar`
+    const REPO_OWNER: &'static str = "joe-stifler"; // TODO: update this to `spaceandtimelabs`
+    const PKG_VERSION: &'static str = env!("CARGO_PKG_VERSION");
+
+    let out_dir = PathBuf::from(env::var("OUT_DIR")?);
+    let lib_path = out_dir.join(SHARED_LIB); // TODO: update this to `libblitzar.so`
+
+    if PKG_VERSION == "0.0.0" {
+        assert!(Command::new("bash")
+            .current_dir("../../")
+            .arg("build.sh")
+            .arg(&lib_path)
+            .status()
+            .expect("Failed to run the build script")
+            .success()
+        );
     } else {
-        panic!("Unsupported OS");
+        let mut lib_file = File::create(&lib_path)?;
+        let release_url = format!("https://github.com/{REPO_OWNER}/{REPO_NAME}/releases/download/{PKG_VERSION}/{SHARED_LIB}");
+        let mut response = reqwest::blocking::get(release_url)?;
+        copy(&mut response, &mut lib_file)?;
+
+        println!("cargo:rerun-if-changed=build.rs");
     }
 
-    // verify if the architecture is supported
-    if cfg!(target_arch = "x86") {
-        lib_name = format!("{}-x86", lib_name);
-    } else if cfg!(target_arch = "x86_64") {
-        lib_name = format!("{}-x86_64", lib_name);
-    } else {
-        panic!("Unsupported architecture");
-    }
+    println!("cargo:rerun-if-env-changed=CARGO_PKG_VERSION");
+    println!("cargo:rustc-link-search=native={}", out_dir.display());
+    println!("cargo:rustc-link-lib=dylib={LIB_NAME}"); // TODO: update this to `blitzar`
 
-    let lib_src_path = format!("{}", lib_name);
-    let dst = PathBuf::from(env::var_os("OUT_DIR").unwrap());
-    let lib_path = dst.join("lib");
-
-    if Path::new(lib_path.to_str().unwrap()).exists() {
-        fs::remove_dir_all(lib_path.clone())
-            .expect("Error removing lib directory");
-    }
-
-    // copy shared lib to output directory
-    fs::create_dir_all(lib_path.clone())
-        .expect("Couldn't create lib directory");
-
-    fs::copy(lib_src_path, lib_path.join(lib_name_local))
-        .expect("Couldn't find shared library");
-
-    println!("cargo:root={}", dst.to_str().unwrap());
-    println!("cargo:rustc-link-search=native={}", lib_path.to_str().unwrap());
-    println!("cargo:rustc-link-lib={}", reduced_lib_name);
-}
-
-fn main() {
-    build_blitzar_lib();
-
-    println!("cargo:rerun-if-changed=build.rs");
+    Ok(())
 }
