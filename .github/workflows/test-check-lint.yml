@@ -15,9 +15,9 @@ concurrency:
 jobs:
   test-rust:
     name: Rust Sys Crate
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # TODO: change to self-hosted runner
     container:
-      image: rust:latest
+      image: rust:latest # TODO: change to blitzar image
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
