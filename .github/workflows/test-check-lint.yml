@@ -1,7 +1,6 @@
 name: Test-Check-Lint
 
 on:
-  push:
   workflow_call:
   pull_request:
     types:
@@ -26,6 +25,7 @@ jobs:
         run: |
           apt-get update && apt-get install -y libclang-dev
           cargo install --version 0.60.1 bindgen
+          rustup component add rustfmt
 
       - name: Run rust tests
         run: cargo test --manifest-path rust/tests/Cargo.toml
