@@ -1,0 +1,26 @@
+name: Test-Check-Lint
+
+on:
+  push:
+  workflow_call:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-rust:
+    name: Rust Sys Crate
+    runs-on: self-hosted
+    container:
+      image: rust:latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Run rust tests
+        run: cargo test --manifest-path rust/tests/Cargo.toml
