@@ -15,7 +15,7 @@ jobs:
     needs: [test-check-lint]
     environment: deploy
     container:
-      image: rust:slim-buster
+      image: rust:latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
