@@ -5,10 +5,10 @@ export PATH=$PATH:/usr/local/cargo/bin/
 
 mkdir -p bin/
 
-# Compile the C code into an object file
+# compile the C code into an object file
 gcc -c -fPIC src/api.c -o bin/api.o
 
-# Create a shared library from the object file
+# create a shared library from the object file
 gcc -shared bin/api.o -o bin/libapi.so
 
 INCLUDE_FILE="api"
