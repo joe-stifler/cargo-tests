@@ -21,8 +21,6 @@ bindgen --allowlist-file ${INCLUDE_PATH}/${INCLUDE_FILE}.h ${INCLUDE_PATH}/${INC
 SO_LIB_PATH=$1
 NEW_VERSION=$2
 
-echo "Hellow World: $SO_LIB_PATH"
-
 if ! cmp -s bin/libapi.so ${SO_LIB_PATH}; then
     cp bin/libapi.so ${SO_LIB_PATH}
 fi
