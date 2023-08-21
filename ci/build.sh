@@ -27,8 +27,8 @@ cp bin/libapi.so ${SO_LIB_PATH}
 
 sed -i 's/version = "*.*.*" # DO NOT CHANGE/version = "'${NEW_VERSION}'" # DO NOT CHANGE/' ${RUST_PATH}/${LIB_PATH}/Cargo.toml
 
-if [ "$#" -eq 2 ]; then
-    if [[ $2 == "--with-release" ]]
+if [ "$#" -eq 3 ]; then
+    if [[ $3 == "--with-release" ]]
     then
         DIST_PATH="$(pwd)/dist"
         NEW_INCLUDE_NAME="${INCLUDE_FILE}_v${NEW_VERSION}.h"
