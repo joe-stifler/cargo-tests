@@ -27,3 +27,14 @@ cp bin/libapi.so ${SO_LIB_PATH}
 
 sed -i 's/version = "*.*.*" # DO NOT CHANGE/version = "'${NEW_VERSION}'" # DO NOT CHANGE/' ${RUST_PATH}/${LIB_PATH}/Cargo.toml
 
+if [ "$#" -eq 2 ]; then
+    if [[ $2 == "--with-release" ]]
+    then
+        DIST_PATH="$(pwd)/dist"
+        NEW_INCLUDE_NAME="${INCLUDE_FILE}_v${NEW_VERSION}.h"
+
+        mkdir -p ${DIST_PATH}
+        cp -f $SO_LIB_PATH ${DIST_PATH}/$(basename "$SO_LIB_PATH")
+        cp -f ${INCLUDE_PATH}/${INCLUDE_FILE}.h ${DIST_PATH}/${INCLUDE_FILE}.h
+    fi
+fi
