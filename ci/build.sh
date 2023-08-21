@@ -38,5 +38,11 @@ if [ "$#" -eq 3 ]; then
         mkdir -p ${DIST_PATH}
         cp -f $SO_LIB_PATH ${DIST_PATH}/$(basename "$SO_LIB_PATH")
         cp -f ${INCLUDE_PATH}/${INCLUDE_FILE}.h ${DIST_PATH}/${INCLUDE_FILE}.h
+
+        cd ${RUST_PATH}/${LIB_PATH}
+        cargo clean
+        cd ..
+        zip -r ${DIST_PATH}/test-sys-v${NEW_VERSION}.zip ${LIB_PATH}
+        tar -czvf ${DIST_PATH}/test-sys-v${NEW_VERSION}.tar.gz ${LIB_PATH}
     fi
 fi
