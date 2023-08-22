@@ -3,7 +3,6 @@ name = "test-sys"
 version = "0.0.0" # DO NOT CHANGE
 edition = "2021"
 rust-version = "1.71.1"
-description = "Test Sys"
 license = "Apache-2.0"
 description = "Rust bindings for the test-sys library"
 repository = "https://github.com/joe-stifler/cargo-tests"
