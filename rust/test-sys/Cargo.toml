@@ -2,14 +2,24 @@
 name = "test-sys"
 version = "0.0.0" # DO NOT CHANGE
 edition = "2021"
-description = "Test sys"
+rust-version = "1.71.1"
+description = "Test Sys"
 license = "Apache-2.0"
+description = "Rust bindings for the test-sys library"
 repository = "https://github.com/joe-stifler/cargo-tests"
+keywords = ["test1", "cbindings", "test2"]
 
-exclude = ["/target", "/Cargo.lock"]
-include = ["/src", "build.rs", "Cargo.toml", "*.so*"]
+exclude = [
+    "**/.gitignore",
+    ".gitignore",
+    "/target",
+    "/Cargo.lock",
+    "*.so*"
+]
+include = ["/src", "build.rs", "Cargo.toml"]
 
 [dependencies]
 
 [build-dependencies]
 reqwest = { version = "0.11.18", default-features = false, features = ["blocking", "rustls-tls"] }
+ 
