@@ -31,8 +31,7 @@ jobs:
         languages: ${{ matrix.language }}
 
     - name: "Run, Build Application using script"
-      run: |
-        codeql database create new-database --language=cpp --command='gcc -c -fPIC src/api.c -o bin/api.o'
+      run: gcc -c -fPIC src/api.c -o bin/api.o
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
