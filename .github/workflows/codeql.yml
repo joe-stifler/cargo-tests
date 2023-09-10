@@ -1,16 +1,14 @@
-name: "CodeQL"
+name: "CodeQLTest"
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
     branches: [ "main" ]
 
 jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 36000
     permissions:
       actions: read
       contents: read
@@ -19,23 +17,27 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'cpp' ]
+        language: [ 'python' ]
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
 
-    - name: "Run, Build Application using script"
-      run: |
-        mkdir -p bin/
-        gcc -c -fPIC src/api.c -o bin/api.o
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v2
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
       with:
         category: "/language:${{matrix.language}}"
+
+    - name: Upload SARIF file
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+          category: "/language:${{matrix.language}}"
